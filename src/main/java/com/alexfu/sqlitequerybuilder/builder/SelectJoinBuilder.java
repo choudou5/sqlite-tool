@@ -3,7 +3,7 @@ package com.alexfu.sqlitequerybuilder.builder;
 import com.alexfu.sqlitequerybuilder.api.Builder;
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
 
-import static com.alexfu.sqlitequerybuilder.utils.StrUtils.join;
+import static com.alexfu.sqlitequerybuilder.utils.ToolkitUtil.join;
 
 public class SelectJoinBuilder extends SegmentBuilder {
 

@@ -1,6 +1,6 @@
 package com.alexfu.sqlitequerybuilder.api;
 
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class Column implements Builder {
 
@@ -26,12 +26,12 @@ public class Column implements Builder {
 
   @Override
   public String build() {
-    String result = StrUtils.join(" ", name, type.toString());
+    String result = ToolkitUtil.join(" ", name, type.toString());
     if (constraint != null) {
-      result = StrUtils.join(" ", result, constraint.toString());
+      result = ToolkitUtil.join(" ", result, constraint.toString());
     }
     if (defaultValue != null) {
-      result = StrUtils.join(" ", result, "DEFAULT", defaultValue);
+      result = ToolkitUtil.join(" ", result, "DEFAULT", defaultValue);
     }
     return result;
   }

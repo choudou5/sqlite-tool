@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectGroupByBuilder extends SegmentBuilder {
 
@@ -20,6 +20,6 @@ public class SelectGroupByBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "GROUP BY", column);
+    return ToolkitUtil.join(" ", prefix.build(), "GROUP BY", column);
   }
 }

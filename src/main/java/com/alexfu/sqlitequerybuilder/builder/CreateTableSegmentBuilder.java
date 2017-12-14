@@ -2,7 +2,7 @@ package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.Column;
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public class CreateTableSegmentBuilder extends SegmentBuilder {
       + "TABLE"
       + (ifNotExists ? " IF NOT EXISTS" : "");
 
-    String tail = name + "(" + StrUtils.join(",", definitions.toArray()) + ")";
+    String tail = name + "(" + ToolkitUtil.join(",", definitions.toArray()) + ")";
 
-    return StrUtils.join(" ", head, tail);
+    return ToolkitUtil.join(" ", head, tail);
   }
 
 }

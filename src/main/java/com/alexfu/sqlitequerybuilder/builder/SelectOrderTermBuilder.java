@@ -1,6 +1,6 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectOrderTermBuilder extends SegmentBuilder {
 
@@ -22,6 +22,6 @@ public class SelectOrderTermBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), term.toString());
+    return ToolkitUtil.join(" ", prefix.build(), term.toString());
   }
 }

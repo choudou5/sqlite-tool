@@ -2,7 +2,7 @@ package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.ObjectType;
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 /**
  * @author Steven Wu
@@ -49,7 +49,7 @@ public class DropSegmentBuilder extends SegmentBuilder {
   @Override
   public String build() {
     String statement = "DROP " + type + (ifExists ? " IF EXISTS" : "");
-    return StrUtils.join(" ", statement, name);
+    return ToolkitUtil.join(" ", statement, name);
   }
   
 }

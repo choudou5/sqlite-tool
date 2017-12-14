@@ -2,7 +2,7 @@ package com.alexfu.sqlitequerybuilder.builder.insert;
 
 import com.alexfu.sqlitequerybuilder.builder.SegmentBuilder;
 import com.alexfu.sqlitequerybuilder.utils.DateUtils;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 import java.util.Calendar;
 
@@ -36,6 +36,6 @@ public class InsertValuesBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return predicate.build() + " values (" + StrUtils.join(",", values) + ")";
+    return predicate.build() + " values (" + ToolkitUtil.join(",", values) + ")";
   }
 }

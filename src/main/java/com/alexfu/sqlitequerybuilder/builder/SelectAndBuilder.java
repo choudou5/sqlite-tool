@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.Builder;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectAndBuilder extends SegmentBuilder {
 
@@ -19,6 +19,6 @@ public class SelectAndBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "AND", condition);
+    return ToolkitUtil.join(" ", prefix.build(), "AND", condition);
   }
 }

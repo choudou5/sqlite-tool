@@ -1,6 +1,6 @@
 package com.alexfu.sqlitequerybuilder.api;
 
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectType implements Builder {
 
@@ -26,6 +26,6 @@ public class SelectType implements Builder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", type.toString(), StrUtils.join(",", fields));
+    return ToolkitUtil.join(" ", type.toString(), ToolkitUtil.join(",", fields));
   }
 }

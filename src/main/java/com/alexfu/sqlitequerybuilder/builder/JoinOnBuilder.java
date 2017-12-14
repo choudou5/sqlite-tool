@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class JoinOnBuilder extends SegmentBuilder {
 
@@ -25,6 +25,6 @@ public class JoinOnBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "ON", condition);
+    return ToolkitUtil.join(" ", prefix.build(), "ON", condition);
   }
 }

@@ -2,7 +2,7 @@ package com.alexfu.sqlitequerybuilder.builder.delete;
 
 import com.alexfu.sqlitequerybuilder.builder.SegmentBuilder;
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class DeleteFromBuilder extends SegmentBuilder {
 
@@ -21,6 +21,6 @@ public class DeleteFromBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "FROM", StrUtils.join(",", tables));
+    return ToolkitUtil.join(" ", prefix.build(), "FROM", ToolkitUtil.join(",", tables));
   }
 }

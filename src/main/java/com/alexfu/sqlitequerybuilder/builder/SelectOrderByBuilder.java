@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.Builder;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectOrderByBuilder extends SegmentBuilder {
 
@@ -23,6 +23,6 @@ public class SelectOrderByBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "ORDER BY", column);
+    return ToolkitUtil.join(" ", prefix.build(), "ORDER BY", column);
   }
 }

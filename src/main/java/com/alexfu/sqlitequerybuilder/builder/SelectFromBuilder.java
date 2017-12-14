@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectFromBuilder extends SegmentBuilder {
 
@@ -59,6 +59,6 @@ public class SelectFromBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "FROM", StrUtils.join(",", tables));
+    return ToolkitUtil.join(" ", prefix.build(), "FROM", ToolkitUtil.join(",", tables));
   }
 }

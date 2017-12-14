@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.utils.Preconditions;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectHavingBuilder extends SegmentBuilder {
   private SelectGroupByBuilder prefix;
@@ -23,6 +23,6 @@ public class SelectHavingBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return StrUtils.join(" ", prefix.build(), "HAVING", condition);
+    return ToolkitUtil.join(" ", prefix.build(), "HAVING", condition);
   }
 }

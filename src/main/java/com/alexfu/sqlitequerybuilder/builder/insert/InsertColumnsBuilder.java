@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder.insert;
 
 import com.alexfu.sqlitequerybuilder.builder.SegmentBuilder;
-import com.alexfu.sqlitequerybuilder.utils.StrUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 import static com.alexfu.sqlitequerybuilder.utils.Preconditions.checkArgument;
 
@@ -21,6 +21,6 @@ public class InsertColumnsBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return predicate.build() + " (" + StrUtils.join(",", columns) + ")";
+    return predicate.build() + " (" + ToolkitUtil.join(",", columns) + ")";
   }
 }
