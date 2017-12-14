@@ -1,8 +1,7 @@
 # sqlite工具集
 
 ## 查询构器
-eg:
-String query = SQLiteQueryBuilder.
+      String query = SQLiteQueryBuilder.
       select("column1", "column2", "column3")
       .from("mytable")
       .build();
