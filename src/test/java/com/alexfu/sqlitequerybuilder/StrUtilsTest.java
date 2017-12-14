@@ -1,9 +1,9 @@
 package com.alexfu.sqlitequerybuilder;
 
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 
 public class StrUtilsTest {
   @Test
@@ -12,6 +12,6 @@ public class StrUtilsTest {
 
     String expected = "One,Two,Three,Four,Five";
     String result = ToolkitUtil.join(",", strings);
-    assertEquals(expected, result);
+    AssertUtil.assertEqual(expected, result);
   }
 }

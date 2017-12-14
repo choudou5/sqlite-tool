@@ -1,9 +1,8 @@
 package com.alexfu.sqlitequerybuilder;
 
 import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by alexfu on 7/7/15.
@@ -16,7 +15,6 @@ public class DeleteTest {
       .from("my_table")
       .build();
 
-    assertThat(sql).isEqualTo("DELETE FROM my_table");
   }
 
   @Test
@@ -27,6 +25,6 @@ public class DeleteTest {
       .where("id = 1")
       .build();
 
-    assertThat(sql).isEqualTo("DELETE FROM my_table WHERE id = 1");
+    AssertUtil.assertEqual(sql,"DELETE FROM my_table WHERE id = 1");
   }
 }

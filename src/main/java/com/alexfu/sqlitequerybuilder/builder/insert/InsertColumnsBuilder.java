@@ -1,9 +1,8 @@
 package com.alexfu.sqlitequerybuilder.builder.insert;
 
 import com.alexfu.sqlitequerybuilder.builder.SegmentBuilder;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
-
-import static com.alexfu.sqlitequerybuilder.utils.Preconditions.checkArgument;
 
 public class InsertColumnsBuilder extends SegmentBuilder {
   private final SegmentBuilder predicate;
@@ -15,7 +14,7 @@ public class InsertColumnsBuilder extends SegmentBuilder {
   }
 
   public InsertValuesBuilder values(Object...values) {
-    checkArgument(values != null, "Values cannot be null");
+    AssertUtil.isNotNull(values, "Values cannot be null");
     return new InsertValuesBuilder(this, values);
   }
 

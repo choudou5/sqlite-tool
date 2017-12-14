@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.ObjectType;
-import com.alexfu.sqlitequerybuilder.utils.Preconditions;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 /**
@@ -22,22 +22,22 @@ public class DropSegmentBuilder extends SegmentBuilder {
   }
 
   public DropSegmentBuilder table(String table) {
-    Preconditions.checkArgument(table != null, "Table name cannot be null");
+    AssertUtil.isNotNull(table, "Table name cannot be null");
     return new DropSegmentBuilder(ObjectType.TABLE, table);
   }
 
   public DropSegmentBuilder view(String view) {
-    Preconditions.checkArgument(view != null, "View name cannot be null");
+    AssertUtil.isNotNull(view, "View name cannot be null");
     return new DropSegmentBuilder(ObjectType.VIEW, view);
   }
 
   public DropSegmentBuilder index(String index) {
-    Preconditions.checkArgument(index != null, "Index name cannot be null");
+    AssertUtil.isNotNull(index, "Index name cannot be null");
     return new DropSegmentBuilder(ObjectType.INDEX, index);
   }
 
   public DropSegmentBuilder trigger(String trigger) {
-    Preconditions.checkArgument(trigger != null, "Trigger name cannot be null");
+    AssertUtil.isNotNull(trigger, "Trigger name cannot be null");
     return new DropSegmentBuilder(ObjectType.TRIGGER, trigger);
   }
 

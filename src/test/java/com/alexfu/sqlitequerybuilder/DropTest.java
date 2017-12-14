@@ -1,8 +1,9 @@
 package com.alexfu.sqlitequerybuilder;
 
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
 
@@ -18,7 +19,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP TABLE IF EXISTS myTable");
+    AssertUtil.assertEqual(statement, "DROP TABLE IF EXISTS myTable");
   }
 
   @Test
@@ -30,7 +31,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP TABLE myTable");
+    AssertUtil.assertEqual(statement,"DROP TABLE myTable");
   }
 
   @Test
@@ -43,7 +44,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP VIEW IF EXISTS myView");
+    AssertUtil.assertEqual(statement,"DROP VIEW IF EXISTS myView");
   }
 
   @Test
@@ -55,7 +56,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP VIEW myView");
+    AssertUtil.assertEqual(statement,"DROP VIEW myView");
   }
 
   @Test
@@ -68,7 +69,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP INDEX IF EXISTS myIndex");
+    AssertUtil.assertEqual(statement,"DROP INDEX IF EXISTS myIndex");
   }
 
   @Test
@@ -80,7 +81,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP INDEX myIndex");
+    AssertUtil.assertEqual(statement,"DROP INDEX myIndex");
   }
 
   @Test
@@ -93,7 +94,7 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP TRIGGER IF EXISTS myTrigger");
+    AssertUtil.assertEqual(statement,"DROP TRIGGER IF EXISTS myTrigger");
   }
 
   @Test
@@ -105,6 +106,6 @@ public class DropTest {
       .toString();
 
     // Assert
-    assertThat(statement).isEqualTo("DROP TRIGGER myTrigger");
+    AssertUtil.assertEqual(statement,"DROP TRIGGER myTrigger");
   }
 }

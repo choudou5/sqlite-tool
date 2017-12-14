@@ -11,7 +11,6 @@ import java.util.Map;
  **/
 public class AssertUtil {
 
-
     /**
      * 是否为真
      *
@@ -56,11 +55,10 @@ public class AssertUtil {
 
     /**
      * 是否长度为空的字符串
-     *
      * @param text - string
      * @param message
      */
-    public static void hasLength( String text, String message ) {
+    public static void isNotEmpty( String text, String message ) {
         if(ToolkitUtil.isEmpty( text ) ) {
             throw new BizException( message );
         }
@@ -71,8 +69,8 @@ public class AssertUtil {
      *
      * @param text
      */
-    public static void hasLength( String text ) {
-        hasLength(text, "[Assertion failed] - this String argument must have length; it must not be null or empty" );
+    public static void isNotEmpty( String text ) {
+        isNotEmpty(text, "[Assertion failed] - this String argument must have length; it must not be null or empty" );
     }
 
     /**
@@ -259,14 +257,10 @@ public class AssertUtil {
     /**
      * 限定参数的长度不能超过指定值，否则抛出异常。 当 s 不等于null，并且长度超出maxLength才抛出异常。
      *
-     * @param str
-     *            - 要判断的字符串
-     * @param maxLength
-     *            - 指定长度
-     * @param message
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param str - 要判断的字符串
+     * @param maxLength  - 指定长度
+     * @param message  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertMaxLength( String str, int maxLength, String message ) {
         if(ToolkitUtil.isEmpty(str) || str.length() > maxLength ) {
@@ -277,12 +271,9 @@ public class AssertUtil {
     /**
      * 限定一个整数不能是负数，否则抛出BizException
      *
-     * @param n
-     *            - 要判断的整数
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param n  - 要判断的整数
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertNonnegativeInt( int n, String errorMessage ) {
         if( n < 0 ) {
@@ -295,10 +286,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanOrEqual( int a, int b,
                                                  String errorMessage ) {
@@ -310,10 +299,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanOrEqual( Integer a, Integer b,
                                                  String errorMessage ) {
@@ -329,10 +316,8 @@ public class AssertUtil {
      *
      * @param l
      * @param m
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertEqual( long l, long m, String errorMessage ) {
         assertEqual( Long.valueOf( l ), Long.valueOf( m ), errorMessage );
@@ -343,12 +328,35 @@ public class AssertUtil {
      *
      * @param l
      * @param m
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException  - 出错时抛出异常
      */
     public static void assertEqual( Long l, Long m, String errorMessage ) {
+        isNotNull( l );
+        isNotNull( m );
+        if( !l.equals( m ) ) {
+            throw new BizException( errorMessage );
+        }
+    }
+
+    /**
+     * 限定a必须等于b，否则抛出BizException
+     * @param l
+     * @param m
+     * @throws BizException - 出错时抛出异常
+     */
+    public static void assertEqual( String l, String m) {
+        assertEqual(l, m, l+" not equal "+m);
+    }
+
+    /**
+     * 限定a必须等于b，否则抛出BizException
+     * @param l
+     * @param m
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
+     */
+    public static void assertEqual( String l, String m, String errorMessage ) {
         isNotNull( l );
         isNotNull( m );
         if( !l.equals( m ) ) {
@@ -361,10 +369,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanOrEqual( long a, long b,
                                                  String errorMessage ) {
@@ -376,10 +382,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanOrEqual( Long a, Long b,
                                                  String errorMessage ) {
@@ -395,10 +399,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThan( long a, long b,
                                           String errorMessage ) {
@@ -412,10 +414,8 @@ public class AssertUtil {
      *
      * @param a
      * @param b
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThan( Long a, Long b,
                                           String errorMessage ) {
@@ -427,14 +427,10 @@ public class AssertUtil {
     /**
      * 限定输入值必须是指定列表的其中之一，否则抛出BizException
      *
-     * @param a
-     *            - 输入值
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @param values
-     *            - 指定列表
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param a - 输入值
+     * @param errorMessage  - 出错时的异常错误信息
+     * @param values - 指定列表
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertOneOfThem( short a, String errorMessage,
                                         short... values ) {
@@ -457,12 +453,9 @@ public class AssertUtil {
     /**
      * 判断参数必须大于 0，否则抛出异常
      *
-     * @param l
-     *            - 要判断的数字
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param l  - 要判断的数字
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanZero( long l, String errorMessage ) {
         assertGreaterThanZero( Long.valueOf( l ), errorMessage );
@@ -471,12 +464,9 @@ public class AssertUtil {
     /**
      * 判断参数必须大于 0，否则抛出异常
      *
-     * @param l
-     *            - 要判断的数字
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param l  - 要判断的数字
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertGreaterThanZero( Long l, String errorMessage ) {
         isNotNull( l, errorMessage );
@@ -488,12 +478,9 @@ public class AssertUtil {
     /**
      * 判断参数列表里必须有一个大于0
      *
-     * @param values
-     *            - 要判断的数字组合
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param values - 要判断的数字组合
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertOneOfThemThanZero( String errorMessage,
                                                 int... values ) {
@@ -515,12 +502,9 @@ public class AssertUtil {
     /**
      * 判断参数不能为null，否则抛出异常
      *
-     * @param o
-     *            - 要判断的参数
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param o  - 要判断的参数
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertNotNull( Object o, String errorMessage ) {
         if( o == null ) {
@@ -531,14 +515,10 @@ public class AssertUtil {
     /**
      * 判断时间范围的合法性，end>=start，否则抛出异常
      *
-     * @param start
-     *            - 开始时间，不能为null
-     * @param end
-     *            - 结束时间，不能为null
-     * @param errorMessage
-     *            - 出错时的异常错误信息
-     * @throws BizException
-     *             - 出错时抛出异常
+     * @param start - 开始时间，不能为null
+     * @param end  - 结束时间，不能为null
+     * @param errorMessage  - 出错时的异常错误信息
+     * @throws BizException - 出错时抛出异常
      */
     public static void assertTimeRange( Date start, Date end, String errorMessage ) {
         if( start == null || end == null ) {

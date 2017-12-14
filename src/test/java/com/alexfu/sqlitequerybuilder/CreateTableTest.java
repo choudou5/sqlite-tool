@@ -1,7 +1,6 @@
 package com.alexfu.sqlitequerybuilder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import org.junit.Test;
 
 import com.alexfu.sqlitequerybuilder.api.Column;
@@ -24,7 +23,7 @@ public class CreateTableTest {
       .toString();
 
     // Assert
-    assertThat(query).isEqualTo("CREATE TABLE myTable(column1 INTEGER PRIMARY KEY)");
+    AssertUtil.assertEqual(query,"CREATE TABLE myTable(column1 INTEGER PRIMARY KEY)");
   }
 
   @Test
@@ -44,7 +43,7 @@ public class CreateTableTest {
       .toString();
 
     // Assert
-    assertThat(query).isEqualTo("CREATE TABLE myTable(column1 INTEGER PRIMARY KEY,column2 TEXT,"
+    AssertUtil.assertEqual(query,"CREATE TABLE myTable(column1 INTEGER PRIMARY KEY,column2 TEXT,"
       + "column3 TEXT NOT NULL)");
   }
 
@@ -61,7 +60,7 @@ public class CreateTableTest {
       .toString();
 
     // Assert
-    assertThat(query).isEqualTo("CREATE TABLE myTable(column1 INTEGER PRIMARY KEY DEFAULT 0)");
+    AssertUtil.assertEqual(query,"CREATE TABLE myTable(column1 INTEGER PRIMARY KEY DEFAULT 0)");
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -88,7 +87,7 @@ public class CreateTableTest {
       .toString();
 
     // Assert
-    assertThat(query).isEqualTo("CREATE TABLE IF NOT EXISTS myTable(column1 INTEGER PRIMARY KEY)");
+    AssertUtil.assertEqual(query,"CREATE TABLE IF NOT EXISTS myTable(column1 INTEGER PRIMARY KEY)");
   }
 
   @Test
@@ -102,7 +101,7 @@ public class CreateTableTest {
       .column(column)
       .build();
 
-    assertThat(query).isEqualTo("CREATE TEMP TABLE myTable(column1 INTEGER PRIMARY KEY)");
+    AssertUtil.assertEqual(query,"CREATE TEMP TABLE myTable(column1 INTEGER PRIMARY KEY)");
   }
 
   @Test
@@ -117,7 +116,7 @@ public class CreateTableTest {
       .column(column)
       .build();
 
-    assertThat(query).isEqualTo("CREATE TEMP TABLE IF NOT EXISTS myTable(column1 INTEGER "
+    AssertUtil.assertEqual(query,"CREATE TEMP TABLE IF NOT EXISTS myTable(column1 INTEGER "
       + "PRIMARY KEY)");
   }
 
@@ -143,7 +142,7 @@ public class CreateTableTest {
       .column(column)
       .build();
 
-    assertThat(query).isEqualTo("CREATE TABLE myTable(column1 INTEGER PRIMARY KEY AUTOINCREMENT)");
+    AssertUtil.assertEqual(query,"CREATE TABLE myTable(column1 INTEGER PRIMARY KEY AUTOINCREMENT)");
   }
 
 }

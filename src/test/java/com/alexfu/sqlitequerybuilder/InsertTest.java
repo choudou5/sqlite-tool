@@ -2,13 +2,12 @@ package com.alexfu.sqlitequerybuilder;
 
 import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
 import com.alexfu.sqlitequerybuilder.api.StatementExecutor;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.DateUtils;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class InsertTest {
 
@@ -23,7 +22,7 @@ public class InsertTest {
 
     String iso8601 = DateUtils.iso8601().format(timestamp.getTime());
     String result = "INSERT INTO people (id,name,timestamp) values (1,'John','" + iso8601 + "')";
-    assertThat(sql).isEqualTo(result);
+    AssertUtil.assertEqual(sql, result);
 
     StatementExecutor.insert(sql);
     Map rowData = StatementExecutor.selectOne(sql);

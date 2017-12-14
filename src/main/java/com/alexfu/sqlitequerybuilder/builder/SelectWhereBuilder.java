@@ -1,7 +1,7 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.Builder;
-import com.alexfu.sqlitequerybuilder.utils.Preconditions;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 
 import static com.alexfu.sqlitequerybuilder.utils.ToolkitUtil.join;
 
@@ -16,7 +16,7 @@ public class SelectWhereBuilder extends SegmentBuilder {
   }
 
   public SelectAndBuilder and(String condition) {
-    Preconditions.checkArgument(condition != null, "Condition cannot be null");
+    AssertUtil.isNotNull(condition, "Condition cannot be null");
     return new SelectAndBuilder(this, condition);
   }
 

@@ -1,6 +1,6 @@
 package com.alexfu.sqlitequerybuilder.builder;
 
-import com.alexfu.sqlitequerybuilder.utils.Preconditions;
+import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 public class SelectGroupByBuilder extends SegmentBuilder {
@@ -14,7 +14,7 @@ public class SelectGroupByBuilder extends SegmentBuilder {
   }
 
   public SelectHavingBuilder having(String condition) {
-    Preconditions.checkArgument(condition != null, "Condition cannot be null");
+    AssertUtil.isNotNull(condition, "Condition cannot be null");
     return new SelectHavingBuilder(this, condition);
   }
 
