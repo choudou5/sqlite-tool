@@ -1,11 +1,9 @@
 package com.alexfu.sqlitequerybuilder.api;
 
+import com.alexfu.sqlitequerybuilder.entity.ColumnEntity;
 import com.alexfu.sqlitequerybuilder.utils.SqliteJdbcUtils;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +15,36 @@ import java.util.Map;
  * @create 2017-12-下午 1:21
  **/
 public class StatementExecutor<T> {
+
+    public static List<String> selectFieldNames(String table){
+        Connection conn =  SqliteJdbcUtils.getConnection();
+        Statement st = SqliteJdbcUtils.getStatement(conn);
+        ResultSet rs = null;
+        try {
+            rs = st.executeQuery("SELECT * FROM "+table+" limit 1");
+            return getColumnNames(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            SqliteJdbcUtils.close(conn, st, rs);
+        }
+        return null;
+    }
+
+    public static List<ColumnEntity> selectFieldEntitys(String table){
+        Connection conn =  SqliteJdbcUtils.getConnection();
+        Statement st = SqliteJdbcUtils.getStatement(conn);
+        ResultSet rs = null;
+        try {
+            rs = st.executeQuery("SELECT * FROM "+table+" limit 1");
+            return getColumns(table, rs, conn.getMetaData());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            SqliteJdbcUtils.close(conn, st, rs);
+        }
+        return null;
+    }
 
 
     public static int selectCount(String sql){
@@ -185,4 +213,49 @@ public class StatementExecutor<T> {
         }
         return list;
     }
+
+    private static List<String> getColumnNames(ResultSet rs) throws SQLException{
+        List<String> list = new ArrayList<>();
+        ResultSetMetaData rsmd = rs.getMetaData(); //获取字段名
+        if(rsmd != null){
+            int count  = rsmd.getColumnCount();
+            for(int i=1;i<=count;i++){
+                list.add(rsmd.getColumnName(i));
+            }
+        }
+        return list;
+    }
+
+    private static List<ColumnEntity> getColumns(String table, ResultSet rs, DatabaseMetaData meta) throws SQLException{
+        List<ColumnEntity> list = new ArrayList<>();
+        List<String> pkNames = new ArrayList<>(5);
+        //得到主键集合
+        ResultSet primaryKey = meta.getPrimaryKeys(null, null, table);
+        while (primaryKey.next()) {
+            pkNames.add(primaryKey.getString("COLUMN_NAME"));
+        }
+        primaryKey.close();
+
+        ResultSetMetaData rsmd = rs.getMetaData(); //获取字段名
+        if(rsmd != null){
+            int count  = rsmd.getColumnCount();
+            for(int i=1;i<=count;i++){
+                ColumnEntity column = new ColumnEntity();
+                column.setColumnName(rsmd.getColumnName(i))
+                        .setColumnLabel(rsmd.getColumnLabel(i))
+                        .setColumnTypeName(rsmd.getColumnTypeName(i))
+                        .setIsAutoIncrement(rsmd.isAutoIncrement(i))
+                        .setIsNullable(rsmd.isNullable(i)==1);
+                if(pkNames.contains(column.getColumnName()))
+                    column.setIsPk(true);
+                list.add(column);
+            }
+        }
+        return list;
+    }
+
+
+
+
+
 }

@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * 数据库
+ * 数据库 JDBC工具类
  * @author xuhaowen
  * @create 2017-12-下午 1:36
  **/
-public class SqliteJdbcPoolUtils {
+public class SqliteJdbcPoolUtils extends SqliteJdbc {
 
     /**
      * 数据源
@@ -48,35 +48,10 @@ public class SqliteJdbcPoolUtils {
             AssertUtil.isNotNull(dataSource, "数据源为空!");
              conn = dataSource.getConnection();
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
+            e.printStackTrace();
+            throw new BizException("SqliteJdbcPoolUtils类getConnection()失败.");
         }
-        System.out.println("Opened database successfully");
         return conn;
-    }
-
-    public static Statement getStatement(Connection conn){
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return stmt;
-    }
-
-    public static void close(Connection conn, Statement st){
-        close(conn, st, null);
-    }
-
-    public static void close(Connection conn, Statement st, ResultSet rs){
-        try {
-            if(rs != null) rs.close();
-            if(st != null) st.close();
-            if(conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 
