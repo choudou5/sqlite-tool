@@ -1,5 +1,7 @@
 package com.alexfu.sqlitequerybuilder.utils;
 
+import java.util.List;
+
 public class ToolkitUtil {
 
   public static String join(CharSequence delimiter, String... array) {
@@ -8,12 +10,22 @@ public class ToolkitUtil {
 
   public static String join(CharSequence delimiter, Object... array) {
     StringBuilder sb = new StringBuilder();
-
     for (int i = 0, size = array.length; i < size; i++) {
       if (i > 0) {
         sb.append(delimiter);
       }
       sb.append(array[i]);
+    }
+    return sb.toString();
+  }
+
+  public static String joinList(CharSequence delimiter, List list) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0, size = list.size(); i < size; i++) {
+      if (i > 0) {
+        sb.append(delimiter);
+      }
+      sb.append(list.get(i));
     }
     return sb.toString();
   }
