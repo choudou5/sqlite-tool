@@ -12,7 +12,7 @@ import java.util.Map;
 public class InsertTest {
 
   @Test
-  public void insertWithGoodValues() {
+  public void insertWithGoodValues() throws Exception {
     Calendar timestamp = Calendar.getInstance();
     String sql = SQLiteQueryBuilder.insert()
       .into("people")

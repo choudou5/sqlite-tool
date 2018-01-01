@@ -6,6 +6,9 @@ import com.alexfu.sqlitequerybuilder.builder.SelectWhereBuilder;
 import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class SelectTest {
   @Test
   public void singleColumnSelectTest() {
@@ -172,7 +175,7 @@ public class SelectTest {
       .select("*")
       .from("mytable")
       .where("id = 1")
-      .limit(5)
+      .rows(5)
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable WHERE id = 1 LIMIT 5");
@@ -191,10 +194,13 @@ public class SelectTest {
 
   @Test
   public void selectOrderByTest() {
+    Map<String, String> sorts = new LinkedHashMap<String, String>();
+    sorts.put("a", "asc");
     String query = SQLiteQueryBuilder
       .select("*")
       .from("mytable")
-      .orderBy("rank")
+      .orderBy(sorts)
+//      .orderBy("rank")
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable ORDER BY rank");
@@ -231,7 +237,7 @@ public class SelectTest {
       .from("mytable")
       .groupBy("rank")
       .having("age > 0")
-      .limit(3)
+      .rows(3)
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable GROUP BY rank HAVING age > 0 LIMIT 3");
@@ -244,9 +250,8 @@ public class SelectTest {
       .from("mytable")
       .where("id = 1")
       .orderBy("rank")
-      .desc()
-      .limit(10)
-      .offset(5)
+      .rows(10)
+      .start(5)
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable WHERE id = 1 ORDER BY rank DESC LIMIT 10 "
@@ -279,7 +284,6 @@ public class SelectTest {
       .select("*")
       .from("mytable")
       .orderBy("age")
-      .asc()
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable ORDER BY age ASC");

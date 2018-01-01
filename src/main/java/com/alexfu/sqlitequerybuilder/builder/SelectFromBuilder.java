@@ -3,6 +3,8 @@ package com.alexfu.sqlitequerybuilder.builder;
 import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
+import java.util.Map;
+
 public class SelectFromBuilder extends SegmentBuilder {
 
   private SelectBuilder prefix;
@@ -47,6 +49,11 @@ public class SelectFromBuilder extends SegmentBuilder {
     AssertUtil.isNotNull(column, "Column cannot be null");
     return new SelectOrderByBuilder(this, column);
   }
+
+  public SelectOrderByBuilder orderBy(Map<String, String> sorts) {
+    return new SelectOrderByBuilder(this, sorts);
+  }
+
 
   public SelectGroupByBuilder groupBy(String column) {
     AssertUtil.isNotNull(column, "Column cannot be null");

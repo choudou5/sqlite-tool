@@ -43,7 +43,7 @@ public class TableColumnUtil {
      * @param table
      * @return
      */
-    public static List<String> getColumnNameList(String table){
+    public static List<String> getColumnNameList(String table) throws Exception {
         AssertUtil.isNotNull(table, "table不能为空!");
         return StatementExecutor.selectFieldNames(table);
     }
@@ -53,7 +53,7 @@ public class TableColumnUtil {
      * @param table
      * @return
      */
-    public static List<ColumnEntity> getColumnList(String table){
+    public static List<ColumnEntity> getColumnList(String table) throws Exception {
         AssertUtil.isNotNull(table, "table不能为空!");
         return StatementExecutor.selectFieldEntitys(table);
     }
@@ -63,7 +63,7 @@ public class TableColumnUtil {
      * 获取 Sql字段列名
      * @return
      */
-    public static String[] getSqlsFields(String table){
+    public static String[] getSqlsFields(String table) throws Exception {
         List<String> list = TableColumnUtil.getColumnNameList(table);
         String[] fields = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -77,7 +77,7 @@ public class TableColumnUtil {
      * 获取 字段值
      * @return
      */
-    public static Object[] getValues(Object object){
+    public static Object[] getValues(Object object) throws Exception {
         List<Field> fields = getValidField(object);
         Object[] values = new Object[fields.size()];
         for (int i = 0; i < fields.size(); i++) {
@@ -91,7 +91,7 @@ public class TableColumnUtil {
      * @param object
      * @return
      */
-    public static List<Field> getValidField(Object object){
+    public static List<Field> getValidField(Object object) throws Exception {
         List<String> columnNameList = TableColumnUtil.getColumnNameList(getTable(object.getClass()));
         List<Field> fields = ReflectionUtils.getAllFields(object.getClass());
         List<Field> validFields = new ArrayList<>();

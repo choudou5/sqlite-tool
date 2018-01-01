@@ -1,6 +1,7 @@
 package com.alexfu.sqlitequerybuilder.utils;
 
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * 数据库 JDBC工具类
@@ -9,10 +10,13 @@ import java.sql.*;
  **/
 public class SqliteJdbcUtils extends SqliteJdbc {
 
+    private static final Properties pro = new Properties();
+
     private static String dbPath = null;
     static{
         try {
             Class.forName("org.sqlite.JDBC");
+            pro.put("date_string_format", "yyyy-MM-dd HH:mm:ss");  //默认是yyyy-MM-dd HH:mm:ss.SSS，覆盖为yyyy-MM-dd HH:mm:ss；
         } catch ( Exception e ) {
             throw new BizException("系统找不到org.sqlite.JDBC类");
         }
@@ -26,7 +30,7 @@ public class SqliteJdbcUtils extends SqliteJdbc {
         Connection conn = null;
         try {
             AssertUtil.isNotNull(dbPath, "系统未调用SqliteJdbcUtils类 init()");
-            conn = DriverManager.getConnection("jdbc:sqlite:"+dbPath);
+            conn = DriverManager.getConnection("jdbc:sqlite:"+dbPath, pro);
         } catch ( Exception e ) {
             e.printStackTrace();
             throw new BizException("SqliteJdbcUtils类getConnection()失败.");

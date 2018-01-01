@@ -14,11 +14,16 @@ public class SelectHavingBuilder extends SegmentBuilder {
 
   public SelectOrderByBuilder orderBy(String column) {
     AssertUtil.isNotNull(column, "Column cannot be null");
-    return new SelectOrderByBuilder(this, column);
+    return orderBy(column, SelectOrderByBuilder.OrderType.DESC);
   }
 
-  public SelectLimitBuilder limit(int limit) {
-    return new SelectLimitBuilder(this, limit);
+  public SelectOrderByBuilder orderBy(String column, SelectOrderByBuilder.OrderType type) {
+    AssertUtil.isNotNull(column, "Column cannot be null");
+    return new SelectOrderByBuilder(this, column, type);
+  }
+
+  public SelectLimitBuilder rows(int rows) {
+    return new SelectLimitBuilder(this, rows);
   }
 
   @Override

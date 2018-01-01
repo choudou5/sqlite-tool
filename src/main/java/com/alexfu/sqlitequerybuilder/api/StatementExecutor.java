@@ -1,6 +1,7 @@
 package com.alexfu.sqlitequerybuilder.api;
 
 import com.alexfu.sqlitequerybuilder.entity.ColumnEntity;
+import com.alexfu.sqlitequerybuilder.utils.BizException;
 import com.alexfu.sqlitequerybuilder.utils.SqliteJdbcUtils;
 import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  **/
 public class StatementExecutor<T> {
 
-    public static List<String> selectFieldNames(String table){
+    public static List<String> selectFieldNames(String table) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         Statement st = SqliteJdbcUtils.getStatement(conn);
         ResultSet rs = null;
@@ -25,14 +26,13 @@ public class StatementExecutor<T> {
             rs = st.executeQuery("SELECT * FROM "+table+" limit 1");
             return getColumnNames(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             SqliteJdbcUtils.close(conn, st, rs);
         }
-        return null;
     }
 
-    public static List<ColumnEntity> selectFieldEntitys(String table){
+    public static List<ColumnEntity> selectFieldEntitys(String table) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         Statement st = SqliteJdbcUtils.getStatement(conn);
         ResultSet rs = null;
@@ -40,15 +40,14 @@ public class StatementExecutor<T> {
             rs = st.executeQuery("SELECT * FROM "+table+" limit 1");
             return getColumns(table, rs, conn.getMetaData());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             SqliteJdbcUtils.close(conn, st, rs);
         }
-        return null;
     }
 
 
-    public static int selectCount(String sql){
+    public static int selectCount(String sql) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         Statement st = SqliteJdbcUtils.getStatement(conn);
         ResultSet rs = null;
@@ -56,14 +55,13 @@ public class StatementExecutor<T> {
             rs = st.executeQuery(sql);
             return getCount(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             SqliteJdbcUtils.close(conn, st, rs);
         }
-        return 0;
     }
 
-    public static Map selectOne(String sql){
+    public static Map selectOne(String sql) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         Statement st = SqliteJdbcUtils.getStatement(conn);
         ResultSet rs = null;
@@ -71,14 +69,13 @@ public class StatementExecutor<T> {
             rs = st.executeQuery(sql);
             return getRow(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             SqliteJdbcUtils.close(conn, st, rs);
         }
-        return null;
     }
 
-    public static List<Map> selectList(String sql){
+    public static List<Map> selectList(String sql) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         Statement st = SqliteJdbcUtils.getStatement(conn);
         ResultSet rs = null;
@@ -86,36 +83,35 @@ public class StatementExecutor<T> {
             rs = st.executeQuery(sql);
             return getRows(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             SqliteJdbcUtils.close(conn, st, rs);
         }
-        return null;
     }
 
-    public static long insert(String sql){
+    public static long insert(String sql) throws Exception{
         return execute(sql, true);
     }
 
-    public static long batchInsert(String ... sql){
+    public static long batchInsert(String ... sql) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         return executeBatch(conn, true, sql);
     }
 
-    public static long update(String sql){
+    public static long update(String sql) throws Exception{
         return execute(sql, true);
     }
 
-    public static long delete(String sql){
+    public static long delete(String sql) throws Exception{
         return execute(sql, true);
     }
 
-    private static long execute(String sql, boolean commit){
+    private static long execute(String sql, boolean commit) throws Exception{
         Connection conn =  SqliteJdbcUtils.getConnection();
         return execute(conn, sql, commit);
     }
 
-    private static long execute(Connection conn, String sql, boolean commit){
+    private static long execute(Connection conn, String sql, boolean commit) throws Exception{
         Statement st = null;
         try {
             conn.setAutoCommit(false);
@@ -124,9 +120,9 @@ public class StatementExecutor<T> {
             if(commit)
                 conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 conn.rollback();
+                throw e;
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
@@ -136,30 +132,47 @@ public class StatementExecutor<T> {
         return 0;
     }
 
-    private static Map getRowData(ResultSet rs, int columnCount, ArrayList<String> columns, ArrayList<String> types) throws SQLException {
+    private static Map getRowData(ResultSet rs, int columnCount, ArrayList<String> columns, ArrayList<String> types) throws Exception {
         Map<String, Object> map = new LinkedHashMap<>();
+        String type = null;
         for (int i = 0; i < columnCount; i++) {
-            if (types.get(i).equals("text")) {
+            type = types.get(i).trim().toUpperCase();
+            if (type.equals("CHAR") || type.equals("VARCHAR") || type.equals("TEXT")) {
                 map.put(columns.get(i), rs.getString(columns.get(i)));
             }
-            else if (types.get(i).equals("float")) {
-                map.put(columns.get(i), rs.getDouble(columns.get(i)));
-            }
-            else if (types.get(i).equals("integer")) {
+            else if (type.equals("INT") || type.equals("INTEGER") || type.equals("TINYINT")) {
                 map.put(columns.get(i), rs.getInt(columns.get(i)));
             }
-            else if (types.get(i).equals("blob")) {
+            else if (type.equals("FLOAT")) {
+                map.put(columns.get(i), rs.getFloat(columns.get(i)));
+            }
+            else if (type.equals("BIGINT")) {
+                map.put(columns.get(i), rs.getLong(columns.get(i)));
+            }
+            else if (type.equals("DOUBLE")) {
+                map.put(columns.get(i), rs.getDouble(columns.get(i)));
+            }
+            else if (type.equals("NUMERIC") || type.equals("DECIMAL")) {
+                map.put(columns.get(i), rs.getBigDecimal(columns.get(i)));
+            }
+            else if (type.equals("BLOB")) {
                 map.put(columns.get(i), rs.getBlob(columns.get(i)));
             }
-            else if (types.get(i).equals("null")) {
-                map.put(columns.get(i), null);
+            else if (type.equals("DATETIME") || type.equals("DATE")) {
+                map.put(columns.get(i), rs.getDate(columns.get(i)));
+            }
+            else if (type.equals("BOOLEAN")) {
+                map.put(columns.get(i), rs.getBoolean(columns.get(i)));
+            }
+            else{
+                throw new BizException("不支持 "+type+" 类型数据");
             }
         }
         return map;
     }
 
 
-    public static long executeBatch(Connection conn, boolean commit, String ... sqls){
+    public static long executeBatch(Connection conn, boolean commit, String ... sqls) throws Exception{
         Statement st = null;
         try {
             conn.setAutoCommit(false);
@@ -171,9 +184,9 @@ public class StatementExecutor<T> {
             if(commit)
                 conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 conn.rollback();
+                throw e;
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
@@ -183,7 +196,7 @@ public class StatementExecutor<T> {
         return 0;
     }
 
-    private static int getCount(ResultSet rs) throws SQLException {
+    private static int getCount(ResultSet rs) throws Exception {
         int count = 0;
         while (rs.next()) {
             count = rs.getInt(1);
@@ -191,12 +204,12 @@ public class StatementExecutor<T> {
         return count;
     }
 
-    private static Map getRow(ResultSet rs) throws SQLException{
+    private static Map getRow(ResultSet rs) throws Exception{
         List<Map> list = getRows(rs);
         return ToolkitUtil.isNotEmpty(list)?list.get(0):null;
     }
 
-    private static List<Map> getRows(ResultSet rs) throws SQLException{
+    private static List<Map> getRows(ResultSet rs) throws Exception{
         List<Map> list = new ArrayList<>();
         try {
             int columnCount = rs.getMetaData().getColumnCount();
@@ -227,7 +240,7 @@ public class StatementExecutor<T> {
         return list;
     }
 
-    private static List<ColumnEntity> getColumns(String table, ResultSet rs, DatabaseMetaData meta) throws SQLException{
+    private static List<ColumnEntity> getColumns(String table, ResultSet rs, DatabaseMetaData meta) throws Exception{
         List<ColumnEntity> list = new ArrayList<>();
         List<String> pkNames = new ArrayList<>(5);
         //得到主键集合
@@ -254,6 +267,5 @@ public class StatementExecutor<T> {
         }
         return list;
     }
-
 
 }

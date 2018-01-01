@@ -6,6 +6,7 @@ import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.alexfu.sqlitequerybuilder.utils.ToolkitUtil.join;
 
@@ -46,13 +47,22 @@ public class SelectWhereBuilder extends SegmentBuilder {
     return this;
   }
 
-  public SelectLimitBuilder limit(int limit) {
-    return new SelectLimitBuilder(this, limit);
+  public SelectLimitBuilder rows(int rows) {
+    return new SelectLimitBuilder(this, rows);
   }
 
   public SelectOrderByBuilder orderBy(String column) {
-    return new SelectOrderByBuilder(this, column);
+    return orderBy(column, SelectOrderByBuilder.OrderType.DESC);
   }
+
+  public SelectOrderByBuilder orderBy(String column, SelectOrderByBuilder.OrderType type) {
+    return new SelectOrderByBuilder(this, column, type);
+  }
+
+  public SelectOrderByBuilder orderBy(Map<String, String> sorts) {
+    return new SelectOrderByBuilder(this, sorts);
+  }
+
 
   @Override
   public String build() {

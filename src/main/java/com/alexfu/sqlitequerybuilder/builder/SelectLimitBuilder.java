@@ -6,27 +6,27 @@ import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 public class SelectLimitBuilder extends SegmentBuilder {
 
   private Builder prefix;
-  private int limit = -1;
-  private int offset = -1;
+  private int rows = -1;
+  private int start = -1;
 
-  public SelectLimitBuilder(Builder prefix, int limit) {
+  public SelectLimitBuilder(Builder prefix, int rows) {
     this.prefix = prefix;
-    this.limit = limit;
+    this.rows = rows;
   }
 
-  public SegmentBuilder offset(int offset) {
-    this.offset = offset;
+  public SegmentBuilder start(int start) {
+    this.start = start;
     return this;
   }
 
   @Override
   public String build() {
     String offsetString = null;
-    if (offset != -1) {
-      offsetString = ToolkitUtil.join(" ", "OFFSET", String.valueOf(offset));
+    if (start != -1) {
+      offsetString = ToolkitUtil.join(" ", "OFFSET", String.valueOf(start));
     }
 
-    String result = ToolkitUtil.join(" ", prefix.build(), "LIMIT", String.valueOf(limit));
+    String result = ToolkitUtil.join(" ", prefix.build(), "LIMIT", String.valueOf(rows));
     if (offsetString != null) {
       result = ToolkitUtil.join(" ", result, offsetString);
     }
