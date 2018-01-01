@@ -11,13 +11,18 @@ import static com.alexfu.sqlitequerybuilder.utils.ToolkitUtil.join;
 
 public class SelectWhereBuilder extends SegmentBuilder {
 
-  private Builder prefix;
 
+  private Builder prefix;
   private StringBuilder conditions = new StringBuilder(36);
 
   public SelectWhereBuilder(Builder prefix, String condition) {
     conditions.append(condition);
     this.prefix = prefix;
+  }
+
+  public enum CondType{
+    AND,
+    OR
   }
 
   public SelectWhereBuilder and(String condition) {
@@ -32,11 +37,12 @@ public class SelectWhereBuilder extends SegmentBuilder {
     return this;
   }
 
-  public SelectWhereBuilder cond(String field, String symbol, String value) {
+  public SelectWhereBuilder cond(CondType type, String field, String symbol, String value) {
+    AssertUtil.isNotNull(type, "type cannot be null");
     AssertUtil.isNotNull(field, "field cannot be null");
     AssertUtil.isNotNull(symbol, "symbol cannot be null");
     AssertUtil.isNotNull(value, "value cannot be null");
-    conditions.append(" "+field+" "+symbol+" "+value);
+    conditions.append(" "+type.name()+" "+field+" "+symbol+" "+value);
     return this;
   }
 
