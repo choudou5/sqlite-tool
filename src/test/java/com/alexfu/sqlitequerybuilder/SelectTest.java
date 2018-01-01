@@ -2,6 +2,7 @@ package com.alexfu.sqlitequerybuilder;
 
 import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
 import com.alexfu.sqlitequerybuilder.api.SelectType;
+import com.alexfu.sqlitequerybuilder.builder.SelectWhereBuilder;
 import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
 import org.junit.Test;
 
@@ -34,6 +35,19 @@ public class SelectTest {
       .build();
 
     AssertUtil.assertEqual(query,"SELECT * FROM mytable");
+  }
+
+
+  @Test
+  public void starColumnSelectWhereTest() {
+    SelectWhereBuilder where = SQLiteQueryBuilder
+            .select("*")
+            .from("mytable").where("1==1");
+    for (int i = 0; i < 3; i++) {
+      where.and("k="+i);
+    }
+    System.out.println(where.build());
+
   }
 
   @Test

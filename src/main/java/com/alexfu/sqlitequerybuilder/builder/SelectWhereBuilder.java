@@ -2,22 +2,42 @@ package com.alexfu.sqlitequerybuilder.builder;
 
 import com.alexfu.sqlitequerybuilder.api.Builder;
 import com.alexfu.sqlitequerybuilder.utils.AssertUtil;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.alexfu.sqlitequerybuilder.utils.ToolkitUtil.join;
 
 public class SelectWhereBuilder extends SegmentBuilder {
 
   private Builder prefix;
-  private String condition;
+
+  private StringBuilder conditions = new StringBuilder(36);
 
   public SelectWhereBuilder(Builder prefix, String condition) {
-    this.condition = condition;
+    conditions.append(condition);
     this.prefix = prefix;
   }
 
-  public SelectAndBuilder and(String condition) {
+  public SelectWhereBuilder and(String condition) {
     AssertUtil.isNotNull(condition, "Condition cannot be null");
-    return new SelectAndBuilder(this, condition);
+    conditions.append(" AND "+condition);
+    return this;
+  }
+
+  public SelectWhereBuilder or(String condition) {
+    AssertUtil.isNotNull(condition, "Condition cannot be null");
+    conditions.append(" OR "+condition);
+    return this;
+  }
+
+  public SelectWhereBuilder cond(String field, String symbol, String value) {
+    AssertUtil.isNotNull(field, "field cannot be null");
+    AssertUtil.isNotNull(symbol, "symbol cannot be null");
+    AssertUtil.isNotNull(value, "value cannot be null");
+    conditions.append(" "+field+" "+symbol+" "+value);
+    return this;
   }
 
   public SelectLimitBuilder limit(int limit) {
@@ -30,6 +50,6 @@ public class SelectWhereBuilder extends SegmentBuilder {
 
   @Override
   public String build() {
-    return join(" ", prefix.build(), "WHERE", condition);
+    return join(" ", prefix.build(), "WHERE", conditions.toString());
   }
 }

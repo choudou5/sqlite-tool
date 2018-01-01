@@ -1,5 +1,6 @@
 package com.alexfu.sqlitequerybuilder.utils;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ToolkitUtil {
@@ -108,6 +109,10 @@ public class ToolkitUtil {
 
   public static boolean isNotEmpty(boolean[] array) {
     return array != null && array.length != 0;
+  }
+
+  public static boolean isNotEmpty(Collection collection) {
+    return collection != null && collection.size() > 0;
   }
 
 

@@ -2,6 +2,7 @@ package com.alexfu.sqlitequerybuilder.api;
 
 import com.alexfu.sqlitequerybuilder.entity.ColumnEntity;
 import com.alexfu.sqlitequerybuilder.utils.SqliteJdbcUtils;
+import com.alexfu.sqlitequerybuilder.utils.ToolkitUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -192,7 +193,7 @@ public class StatementExecutor<T> {
 
     private static Map getRow(ResultSet rs) throws SQLException{
         List<Map> list = getRows(rs);
-        return list!=null?list.get(0):null;
+        return ToolkitUtil.isNotEmpty(list)?list.get(0):null;
     }
 
     private static List<Map> getRows(ResultSet rs) throws SQLException{
@@ -253,9 +254,6 @@ public class StatementExecutor<T> {
         }
         return list;
     }
-
-
-
 
 
 }
